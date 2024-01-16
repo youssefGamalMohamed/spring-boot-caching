@@ -13,4 +13,11 @@ public class JpaPostMapper {
                 .content(post.getContent())
                 .build();
     }
+
+    public static Post fromJpaEntityToServiceModel(JpaPostEntity jpaPostEntity) {
+        return Post.builder()
+                .id(jpaPostEntity.getId())
+                .content(jpaPostEntity.getContent())
+                .build();
+    }
 }

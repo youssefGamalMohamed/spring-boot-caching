@@ -22,4 +22,16 @@ public class JpaPostRepoImpl implements PostRepoInterface {
         entity = jpaPostRepo.save(entity);
         return entity.getId();
     }
+
+    @Override
+    public Post findById(Long postId) {
+        JpaPostEntity postEntity = jpaPostRepo.findById(postId)
+                .orElseThrow();
+        return JpaPostMapper.fromJpaEntityToServiceModel(postEntity);
+    }
+
+    @Override
+    public void deleteById(Long postId) {
+        jpaPostRepo.deleteById(postId);
+    }
 }

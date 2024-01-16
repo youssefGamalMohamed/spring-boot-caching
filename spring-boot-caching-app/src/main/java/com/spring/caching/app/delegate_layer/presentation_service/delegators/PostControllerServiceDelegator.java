@@ -2,6 +2,7 @@ package com.spring.caching.app.delegate_layer.presentation_service.delegators;
 
 import com.spring.caching.app.delegate_layer.presentation_service.mappers.PostMapper;
 import com.spring.caching.app.presentation_layer.models.request.SavePostRequestBody;
+import com.spring.caching.app.presentation_layer.models.response.FindPostByIdResponse;
 import com.spring.caching.app.presentation_layer.models.response.SavePostResponseBody;
 import com.spring.caching.app.service_layer.interfaces.PostServiceInterface;
 import com.spring.caching.app.service_layer.models.Post;
@@ -21,5 +22,15 @@ public class PostControllerServiceDelegator {
         return SavePostResponseBody.builder()
                 .id(newPostId)
                 .build();
+    }
+
+    public FindPostByIdResponse findById(Long postId) {
+        Post post = postService.findById(postId);
+        FindPostByIdResponse responseBody = PostMapper.toResponse(post);
+        return responseBody;
+    }
+
+    public void deleteById(Long postId) {
+        postService.deleteById(postId);
     }
 }

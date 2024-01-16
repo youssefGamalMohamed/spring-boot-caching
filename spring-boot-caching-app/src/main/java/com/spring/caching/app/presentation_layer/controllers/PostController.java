@@ -1,20 +1,21 @@
 package com.spring.caching.app.presentation_layer.controllers;
 
+import com.spring.caching.app.data_layer.jpa.repositiories.JpaPostRepo;
 import com.spring.caching.app.delegate_layer.presentation_service.delegators.PostControllerServiceDelegator;
 import com.spring.caching.app.presentation_layer.models.request.SavePostRequestBody;
+import com.spring.caching.app.presentation_layer.models.response.FindPostByIdResponse;
 import com.spring.caching.app.presentation_layer.models.response.SavePostResponseBody;
-import com.spring.caching.app.service_layer.interfaces.PostServiceInterface;
-import com.spring.caching.app.service_layer.models.Post;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
 public class PostController {
+    @Autowired
+    private JpaPostRepo jpaPostRepo;
 
 
     @Autowired
@@ -28,5 +29,17 @@ public class PostController {
 
         log.info(">>>>> RESPONSE = {}" , responseBody);
         return ResponseEntity.ok(responseBody);
+    }
+
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<?> findById(@PathVariable(name = "id") Long postId) {
+        FindPostByIdResponse responseBody = postControllerServiceDelegator.findById(postId);
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable(name = "id") Long postId) {
+        postControllerServiceDelegator.deleteById(postId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
