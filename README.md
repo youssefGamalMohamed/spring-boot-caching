@@ -13,6 +13,7 @@ This repository contains a Spring Boot application that demonstrates the integra
 ## Requirements
 - Java 11 or higher
 - Maven 3.6.0 or higher
+- Docker and Docker Compose
 
 ## Setup
 
@@ -58,15 +59,30 @@ This repository contains a Spring Boot application that demonstrates the integra
    mvn spring-boot:run
    ```
 
-## Usage
-The application provides API endpoints to manage posts, allowing for the creation, retrieval, and deletion of posts. The caching mechanism can be observed in action when retrieving posts by ID.
+## Docker Setup
+
+### Build and Run with Docker Compose
+
+1. **Ensure Docker and Docker Compose are installed:**
+   - Docker: [Installation Guide](https://docs.docker.com/get-docker/)
+   - Docker Compose: [Installation Guide](https://docs.docker.com/compose/install/)
+
+2. **Build and start the containers:**
+   ```bash
+   docker-compose up --build
+   ```
+
+   This command will start the Spring Boot application and Redis service in containers.
+
+3. **Access the application:**
+   - The application will be accessible at: `http://localhost:9091/social/api/v1`
 
 ### Example Endpoints
 - Create a post: `POST /social/api/v1/posts`
 - Retrieve a post by ID: `GET /social/api/v1/posts/{id}`
 - Delete a post by ID: `DELETE /social/api/v1/posts/{id}`
 
-## Access H2 Console
+### Access H2 Console
 - H2 Console: [http://localhost:9091/h2-console](http://localhost:9091/h2-console)
   - **JDBC URL:** `jdbc:h2:mem:socialDb`
   - **Username:** `admin`
