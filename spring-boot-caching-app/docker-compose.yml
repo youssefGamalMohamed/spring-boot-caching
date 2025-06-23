@@ -1,40 +1,27 @@
 version: '3.8'
 
 services:
-  spring-app:
-    image: maven:3.8.8-eclipse-temurin-17
-    container_name: spring-app
-    volumes:
-      - .:/app
-    working_dir: /app
-    command: mvn clean spring-boot:run
+  # Spring Boot application service
+  app:
+    build: . # Build the Docker image using the Dockerfile in the current directory
+    container_name: spring-boot-caching-app
     ports:
-      - "9091:9091"
+      - "8080:8080" # Map host port 8080 to container port 8080
     depends_on:
-      - redis
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:h2:mem:socialDb
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: "true"
-      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
-      SPRING_DATA_REDIS_HOST: redis
-      SPRING_DATA_REDIS_PORT: 6379
-      SERVER_PORT: 9091
-      SERVER_SERVLET_CONTEXT_PATH: /social/api/v1
+      - redis # Ensure Redis starts before the app
     networks:
-      - spring-network
+      - spring-network # Connect to the custom network
 
+  # Redis service
   redis:
-    image: redis:7.0-alpine
+    image: redis:7.0-alpine # Use the official Redis image
     container_name: redis
     ports:
-      - "6379:6379"
+      - "6379:6379" # Map host port 6379 to container port 6379
     networks:
-      - spring-network
+      - spring-network # Connect to the custom network
 
+# Define a custom bridge network for the services
 networks:
   spring-network:
     driver: bridge
