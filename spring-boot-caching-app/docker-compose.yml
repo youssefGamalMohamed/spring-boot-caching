@@ -6,7 +6,7 @@ services:
     build: . # Build the Docker image using the Dockerfile in the current directory
     container_name: spring-boot-caching-app
     ports:
-      - "8080:8080" # Map host port 8080 to container port 8080
+      - "9091:9091" # Map host port 8080 to container port 8080
     depends_on:
       - redis # Ensure Redis starts before the app
     networks:
